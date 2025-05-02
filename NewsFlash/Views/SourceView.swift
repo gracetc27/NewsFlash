@@ -12,7 +12,7 @@ struct SourceView: View {
     var body: some View {
         List {
             ForEach(sourcesVM.sources) { source in
-                Text(source.name)
+                SourceItemView(source: source)
             }
         }
         .alert(isPresented: $sourcesVM.showErrorAlert, error: sourcesVM.error, actions: {})

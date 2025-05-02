@@ -8,11 +8,18 @@
 import SwiftUI
 
 struct SourceItemView: View {
+    let source: Source
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack {
+            Text(source.name)
+                .font(.headline)
+            Spacer()
+            SelectButton()
+        }
+        .padding()
     }
 }
 
 #Preview {
-    SourceItemView()
+    SourceItemView(source: .sourceExample)
 }

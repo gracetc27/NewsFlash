@@ -8,8 +8,13 @@
 import SwiftUI
 
 struct SelectButton: View {
+    @State private var isSelected = false
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Button {
+            isSelected.toggle()
+        } label: {
+            Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+        }
     }
 }
 
