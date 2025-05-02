@@ -12,17 +12,17 @@ struct MainView: View {
         TabView {
             HeadlineView()
                 .tabItem {
-                    Label("Menu", systemImage: "list.dash")
+                    Label("Headlines", systemImage: "list.dash")
                 }
 
             SourceView()
                 .tabItem {
-                    Label("Order", systemImage: "square.and.pencil")
+                    Label("Sources", systemImage: "square.and.pencil")
                 }
 
             SavedView()
                 .tabItem {
-                    Label("Order", systemImage: "square.and.pencil")
+                    Label("Saved", systemImage: "star.fill")
                 }
         }
     }

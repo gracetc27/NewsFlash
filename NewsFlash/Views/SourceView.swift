@@ -10,13 +10,12 @@ import SwiftUI
 struct SourceView: View {
     @State private var sourcesVM = SourcesViewModel(service: NewsAPIService())
     var body: some View {
-        ScrollView {
-            List {
-                ForEach(sourcesVM.sources) { source in
-                    Text(source.name)
-                }
+        List {
+            ForEach(sourcesVM.sources) { source in
+                Text(source.name)
             }
         }
+        .alert(isPresented: $sourcesVM.showErrorAlert, error: sourcesVM.error, actions: {})
         .task {
             await sourcesVM.getSources()
         }
