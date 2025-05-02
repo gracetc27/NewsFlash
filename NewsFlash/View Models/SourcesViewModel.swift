@@ -12,6 +12,7 @@ import SwiftUI
 class SourcesViewModel {
     let service: NewsAPIService
     var sources: [Source] = []
+    var userSelectedSources: [String] = []
     var error: SourcesAPIError?
     var showErrorAlert = false
 

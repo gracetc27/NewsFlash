@@ -8,7 +8,9 @@ import Foundation
 
 class NewsAPIService {
     let sourcesUrlString = "https://newsapi.org/v2/top-headlines/sources?apiKey=\(getApiKey())"
+    let articlesUrlString = "https://newsapi.org/v2/everything?sources"
     let apiKey = getApiKey()
+    
 
     static func getApiKey() -> String {
         let url = Bundle.main.url(forResource: "APIKeys", withExtension: "plist")!
@@ -34,7 +36,15 @@ class NewsAPIService {
         do {
             let decoder = JSONDecoder()
             let sourcesPayload = try decoder.decode(SourcesPayload.self, from: data)
-            return sourcesPayload.sources
+            return sourcesPayload.sources.map { source in
+                Source(id: source.id,
+                       name: source.name,
+                       description: source.description,
+                       url: source.url,
+                       category: source.category,
+                       language: source.language,
+                       country: source.country)
+            }
         } catch {
             print(error)
             throw .decodingSourcesFailed
