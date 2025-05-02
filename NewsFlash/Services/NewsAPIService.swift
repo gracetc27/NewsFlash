@@ -17,41 +17,72 @@ class NewsAPIService {
     let sourcesUrlString = "https://newsapi.org/v2/top-headlines/sources"
 
 
-    func getHeadlines(for sources: Set<String>) {
+    func getArticles(for sources: Set<String>) async -> [Article] {
         let articlesUrlString = "https://newsapi.org/v2/everything?sources=\(sources.joined(separator:","))"
-    }
 
-    func getSources() async throws(SourcesAPIError) -> [Source] {
-        guard let url = URL(string: sourcesUrlString) else {
-            throw .invalidSourcesURL
-        }
+        guard let url = URL(string: articlesUrlString) else { return [] }
         var request = URLRequest(url: url)
         request.addValue(Self.apiKey, forHTTPHeaderField: "X-Api-Key")
-
         let (data, _): (Data, URLResponse)
         do {
             (data, _) = try await URLSession.shared.data(for: request)
         } catch {
-            throw .noSources
+            return []
         }
 
         do {
             let decoder = JSONDecoder()
-            let sourcesPayload = try decoder.decode(SourcesPayload.self, from: data)
-            return sourcesPayload.sources.map { source in
-                Source(id: source.id,
-                       name: source.name,
-                       description: source.description,
-                       url: source.url,
-                       category: source.category,
-                       language: source.language,
-                       country: source.country,
-                       isSelected: false)
+            let articlesPayload = try decoder.decode(ArticlesPayload.self, from: data)
+            return articlesPayload.articles.map { article in
+                Article(source: ArticleSource(id: article.source.id, name: article.source.name),
+                        author: article.author,
+                        title: article.title,
+                        description: article.description,
+                        url: article.url,
+                        urlToImage: article.urlToImage,
+                        publishedAt: article.publishedAt,
+                        content: article.content,
+                        isSaved: false)
             }
-        } catch {
-            print(error)
-            throw .decodingSourcesFailed
+            } catch {
+                print(error)
+                return []
+            }
+
+        }
+
+
+        func getSources() async throws(SourcesAPIError) -> [Source] {
+            guard let url = URL(string: sourcesUrlString) else {
+                throw .invalidSourcesURL
+            }
+            var request = URLRequest(url: url)
+            request.addValue(Self.apiKey, forHTTPHeaderField: "X-Api-Key")
+
+            let (data, _): (Data, URLResponse)
+            do {
+                (data, _) = try await URLSession.shared.data(for: request)
+            } catch {
+                throw .noSources
+            }
+
+            do {
+                let decoder = JSONDecoder()
+                let sourcesPayload = try decoder.decode(SourcesPayload.self, from: data)
+                return sourcesPayload.sources.map { source in
+                    Source(id: source.id,
+                           name: source.name,
+                           description: source.description,
+                           url: source.url,
+                           category: source.category,
+                           language: source.language,
+                           country: source.country,
+                           isSelected: false)
+                }
+            } catch {
+                print(error)
+                throw .decodingSourcesFailed
+            }
         }
     }
-}
 
