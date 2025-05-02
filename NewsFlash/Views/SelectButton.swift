@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SelectButton: View {
-    @State private var isSelected = false
+    @Binding var isSelected: Bool
     var body: some View {
         Button {
             isSelected.toggle()
@@ -19,5 +19,5 @@ struct SelectButton: View {
 }
 
 #Preview {
-    SelectButton()
+    SelectButton(isSelected: .constant(true))
 }

@@ -10,10 +10,16 @@ import SwiftUI
 struct SourceView: View {
     @State private var sourcesVM = SourcesViewModel(service: NewsAPIService())
     var body: some View {
-        List {
-            ForEach(sourcesVM.sources) { source in
-                SourceItemView(source: source)
-            }
+        List($sourcesVM.sources) { $source in
+            SourceItemView(source: $source)
+                .onChange(of: source.isSelected) { oldValue, newValue in
+                    // TODO: move to view model to test logic
+                    if newValue {
+                        sourcesVM.addSelectedSource(source)
+                    } else {
+                        sourcesVM.removeSelectedSource(source)
+                    }
+                }
         }
         .alert(isPresented: $sourcesVM.showErrorAlert, error: sourcesVM.error, actions: {})
         .task {

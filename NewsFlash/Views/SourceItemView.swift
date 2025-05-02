@@ -8,18 +8,19 @@
 import SwiftUI
 
 struct SourceItemView: View {
-    let source: Source
+    @Binding var source: Source
     var body: some View {
         HStack {
             Text(source.name)
                 .font(.headline)
             Spacer()
-            SelectButton()
+            SelectButton(isSelected: $source.isSelected)
         }
         .padding()
     }
 }
 
 #Preview {
-    SourceItemView(source: .sourceExample)
+    @Previewable @State var source = Source.sourceExample
+    SourceItemView(source: $source)
 }
