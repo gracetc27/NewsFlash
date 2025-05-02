@@ -33,12 +33,12 @@ class NewsAPIService {
 
         do {
             let decoder = JSONDecoder()
-            let sources = try decoder.decode([Source].self, from: data)
-            return sources
+            let sourcesPayload = try decoder.decode(SourcesPayload.self, from: data)
+            return sourcesPayload.sources
         } catch {
+            print(error)
             throw .decodingSourcesFailed
         }
     }
-
-    }
+}
 

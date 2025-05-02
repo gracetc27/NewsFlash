@@ -7,8 +7,18 @@
 
 import Foundation
 
-enum SourcesAPIError: Error, Equatable {
+enum SourcesAPIError: LocalizedError, Equatable {
     case invalidSourcesURL
     case noSources
     case decodingSourcesFailed
+    var errorDescription: String? {
+        switch self {
+        case .invalidSourcesURL:
+            return "Invalid sources URL"
+        case .noSources:
+            return "No sources available"
+        case .decodingSourcesFailed:
+            return "Decoding sources failed"
+        }
+    }
 }

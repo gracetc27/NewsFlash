@@ -12,16 +12,19 @@ import SwiftUI
 class SourcesViewModel {
     let service: NewsAPIService
     var sources: [Source] = []
+    var error: SourcesAPIError?
+    var showErrorAlert = false
 
     init(service: NewsAPIService) {
         self.service = service
     }
 
     func getSources() async {
-        do {
+        do throws(SourcesAPIError) {
             sources = try await service.getSources()
         } catch {
-            sources = []
+            self.error = error
+            showErrorAlert = true
         }
     }
 }
