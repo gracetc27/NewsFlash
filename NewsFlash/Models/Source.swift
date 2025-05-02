@@ -6,7 +6,7 @@
 //
 import Foundation
 
-struct Source: Codable {
+struct Source: Codable, Identifiable {
     let id: String
     let name: String
     let description: String

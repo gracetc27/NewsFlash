@@ -8,8 +8,18 @@
 import SwiftUI
 
 struct SourceView: View {
+    @State private var sourcesVM = SourcesViewModel(service: NewsAPIService())
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView {
+            List {
+                ForEach(sourcesVM.sources) { source in
+                    Text(source.name)
+                }
+            }
+        }
+        .task {
+            await sourcesVM.getSources()
+        }
     }
 }
 
