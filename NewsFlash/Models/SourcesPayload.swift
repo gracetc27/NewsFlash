@@ -9,5 +9,5 @@ import Foundation
 
 struct SourcesPayload: Codable {
     let status: String
-    let sources: [Source]
+    let sources: [APISource]
 }

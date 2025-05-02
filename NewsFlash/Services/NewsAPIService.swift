@@ -7,16 +7,18 @@
 import Foundation
 
 class NewsAPIService {
-    let sourcesUrlString = "https://newsapi.org/v2/top-headlines/sources?apiKey=\(getApiKey())"
-    let articlesUrlString = "https://newsapi.org/v2/everything?sources"
-    let apiKey = getApiKey()
-    
-
-    static func getApiKey() -> String {
+    static let apiKey: String = {
         let url = Bundle.main.url(forResource: "APIKeys", withExtension: "plist")!
         let dict = NSDictionary(contentsOf: url)!
         let newsAPIKey = dict["NewsAPIKey"] as! String
         return newsAPIKey
+    }()
+
+    let sourcesUrlString = "https://newsapi.org/v2/top-headlines/sources"
+
+
+    func getHeadlines(for sources: Set<String>) {
+        let articlesUrlString = "https://newsapi.org/v2/everything?sources=\(sources.joined(separator:","))"
     }
 
     func getSources() async throws(SourcesAPIError) -> [Source] {
@@ -24,7 +26,7 @@ class NewsAPIService {
             throw .invalidSourcesURL
         }
         var request = URLRequest(url: url)
-        request.addValue(apiKey, forHTTPHeaderField: "X-Api-Key")
+        request.addValue(Self.apiKey, forHTTPHeaderField: "X-Api-Key")
 
         let (data, _): (Data, URLResponse)
         do {
@@ -43,7 +45,8 @@ class NewsAPIService {
                        url: source.url,
                        category: source.category,
                        language: source.language,
-                       country: source.country)
+                       country: source.country,
+                       isSelected: false)
             }
         } catch {
             print(error)
