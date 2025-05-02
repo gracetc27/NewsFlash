@@ -17,9 +17,9 @@ class NewsAPIService {
         return newsAPIKey
     }
 
-    func getSources() async throws -> [Source] {
+    func getSources() async throws(SourcesAPIError) -> [Source] {
         guard let url = URL(string: sourcesUrlString) else {
-            return []
+            throw .invalidSourcesURL
         }
         var request = URLRequest(url: url)
         request.addValue(apiKey, forHTTPHeaderField: "X-Api-Key")
@@ -28,7 +28,7 @@ class NewsAPIService {
         do {
             (data, _) = try await URLSession.shared.data(for: request)
         } catch {
-            throw error
+            throw .noSources
         }
 
         do {
@@ -36,7 +36,7 @@ class NewsAPIService {
             let sources = try decoder.decode([Source].self, from: data)
             return sources
         } catch {
-            throw error
+            throw .decodingSourcesFailed
         }
     }
 
