@@ -10,9 +10,9 @@ import SwiftUI
 
 @Observable
 class SourcesViewModel {
+    private let sourceManager = SourceManager()
     let service: NewsAPIService
     var sources: [Source] = []
-    var userSelectedSources: [String] = []
     var error: SourcesAPIError?
     var showErrorAlert = false
 
@@ -28,4 +28,15 @@ class SourcesViewModel {
             showErrorAlert = true
         }
     }
+
+    func addSelectedSource(_ source: Source) {
+        guard source.isSelected == true else { return }
+        sourceManager.userSelectedSources.insert(source.id)
+        }
+
+    func removeSelectedSource(_ source: Source) {
+        guard source.isSelected == false else { return }
+        sourceManager.userSelectedSources.remove(source.id)
+    }
 }
+
