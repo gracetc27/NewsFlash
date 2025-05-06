@@ -9,7 +9,7 @@ import Foundation
 
 struct APIArticle: Decodable {
     let source: ArticleSource
-    let author: String
+    let author: String?
     let title: String
     let description: String
     let url: URL

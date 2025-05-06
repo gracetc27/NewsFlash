@@ -10,7 +10,7 @@ import Foundation
 struct Article: Codable, Identifiable {
     var id = UUID()
     let source: ArticleSource
-    let author: String
+    let author: String?
     let title: String
     let description: String
     let url: URL
@@ -18,4 +18,18 @@ struct Article: Codable, Identifiable {
     let publishedAt: String
     let content: String
     let isSaved: Bool
+
+    static var defaultArticle: Article {
+        Article(
+            source: .init(id: "1", name: "Default Source"),
+            author: nil,
+            title: "Default Title",
+            description: "Default Description",
+            url: URL(string: "https://www.google.com")!,
+            urlToImage: URL(string: "https://via.placeholder.com/150")!,
+            publishedAt: "2025",
+            content: "lalala",
+            isSaved: false
+            )
+    }
 }
