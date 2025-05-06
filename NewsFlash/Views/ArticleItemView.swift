@@ -9,16 +9,10 @@ import SwiftUI
 
 struct ArticleItemView: View {
     let article: Article
+
     var body: some View {
         HStack {
-            AsyncImage(url: article.url) { image in
-                image
-                    .resizable()
-                    .scaledToFit()
-            } placeholder: {
-                ProgressView()
-            }
-            .frame(width: 50, height: 50)
+            ArticleImageView(article: article)
             VStack(alignment: .leading) {
                 Text(article.title)
                     .font(.headline)
