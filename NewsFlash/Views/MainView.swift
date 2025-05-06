@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct MainView: View {
+    let sourceManager = SourceManager()
     var body: some View {
         TabView {
-            HeadlineView()
+            ArticleHeadlineView()
                 .tabItem {
                     Label("Headlines", systemImage: "list.dash")
                 }

@@ -8,7 +8,11 @@
 import SwiftUI
 
 struct SourceView: View {
-    @State private var sourcesVM = SourcesViewModel(service: NewsAPIService())
+    @State private var sourcesVM: SourcesViewModel
+    
+    init(sourceManager: SourceManager) {
+        self._sourcesVM = State(initialValue: SourcesViewModel(sourceManager: sourceManager, service: NewsAPIService()))
+    }
     var body: some View {
         List($sourcesVM.sources) { $source in
             SourceItemView(source: $source)

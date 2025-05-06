@@ -10,13 +10,14 @@ import SwiftUI
 
 @Observable
 class SourcesViewModel {
-    private let sourceManager = SourceManager()
+    private let sourceManager: SourceManager
     let service: NewsAPIService
     var sources: [Source] = []
     var error: SourcesAPIError?
     var showErrorAlert = false
 
-    init(service: NewsAPIService) {
+    init(sourceManager: SourceManager, service: NewsAPIService) {
+        self.sourceManager = sourceManager
         self.service = service
     }
 

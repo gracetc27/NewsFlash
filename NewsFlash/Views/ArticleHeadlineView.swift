@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct HeadlineView: View {
+struct ArticleHeadlineView: View {
     var body: some View {
         Text("Headlines")
     }
 }
 
 #Preview {
-    HeadlineView()
+    ArticleHeadlineView()
 }
