@@ -17,8 +17,7 @@ struct ArticleImageView: View {
         } placeholder: {
             ProgressView()
         }
-        .frame(width: 50, height: 50)
-        .clipShape(.circle)
+        .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }
 

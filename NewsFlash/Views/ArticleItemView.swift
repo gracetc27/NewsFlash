@@ -11,17 +11,18 @@ struct ArticleItemView: View {
     let article: Article
 
     var body: some View {
-        HStack {
-            ArticleImageView(article: article)
-            VStack(alignment: .leading) {
+        VStack(alignment: .leading) {
+            HStack {
                 Text(article.title)
                     .font(.headline)
-                HStack {
-                    Text(article.description)
-                    Spacer()
-                    Text(article.author ?? "Unknown Author")
-                        .italic()
-                }
+                Text("(\(article.author ?? "Unknown Author"))")
+                    .italic()
+            }
+
+            HStack {
+                ArticleImageView(article: article)
+                Spacer()
+                Text(article.description).lineLimit(5)
             }
         }
         .padding(.horizontal)
