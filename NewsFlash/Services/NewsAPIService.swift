@@ -18,6 +18,7 @@ class NewsAPIService {
 
 
     func getArticles(for sources: Set<String>) async throws(APIError) -> [Article] {
+        guard !sources.isEmpty else { return [] }
         let articlesUrlString = "https://newsapi.org/v2/everything?sources=\(sources.joined(separator:","))"
 
         guard let url = URL(string: articlesUrlString) else { throw .invalidURL }
@@ -46,9 +47,9 @@ class NewsAPIService {
                         isSaved: false)
             }
         } catch {
+            print(error)
             throw.decodingFailed
         }
-
     }
 
 
