@@ -9,7 +9,6 @@ import SwiftUI
 
 struct SourceView: View {
     @State private var sourcesVM: SourcesViewModel
-    
     init(sourceManager: SourceManager) {
         self._sourcesVM = State(initialValue: SourcesViewModel(sourceManager: sourceManager, service: NewsAPIService()))
     }
@@ -33,5 +32,5 @@ struct SourceView: View {
 }
 
 #Preview {
-    SourceView()
+    SourceView(sourceManager: SourceManager())
 }

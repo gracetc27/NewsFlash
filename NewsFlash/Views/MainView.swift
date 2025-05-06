@@ -11,12 +11,12 @@ struct MainView: View {
     let sourceManager = SourceManager()
     var body: some View {
         TabView {
-            ArticleHeadlineView()
+            ArticleHeadlineView(sourceManager: sourceManager)
                 .tabItem {
                     Label("Headlines", systemImage: "list.dash")
                 }
 
-            SourceView()
+            SourceView(sourceManager: sourceManager)
                 .tabItem {
                     Label("Sources", systemImage: "square.and.pencil")
                 }

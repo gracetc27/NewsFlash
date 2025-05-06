@@ -34,7 +34,8 @@ class NewsAPIService {
             let decoder = JSONDecoder()
             let articlesPayload = try decoder.decode(ArticlesPayload.self, from: data)
             return articlesPayload.articles.map { article in
-                Article(source: ArticleSource(id: article.source.id, name: article.source.name),
+                Article(id: UUID(),
+                        source: ArticleSource(id: article.source.id, name: article.source.name),
                         author: article.author,
                         title: article.title,
                         description: article.description,
@@ -44,45 +45,45 @@ class NewsAPIService {
                         content: article.content,
                         isSaved: false)
             }
-            } catch {
-                print(error)
-                return []
-            }
-
+        } catch {
+            print(error)
+            return []
         }
 
+    }
 
-        func getSources() async throws(SourcesAPIError) -> [Source] {
-            guard let url = URL(string: sourcesUrlString) else {
-                throw .invalidSourcesURL
-            }
-            var request = URLRequest(url: url)
-            request.addValue(Self.apiKey, forHTTPHeaderField: "X-Api-Key")
 
-            let (data, _): (Data, URLResponse)
-            do {
-                (data, _) = try await URLSession.shared.data(for: request)
-            } catch {
-                throw .noSources
-            }
+    func getSources() async throws(SourcesAPIError) -> [Source] {
+        guard let url = URL(string: sourcesUrlString) else {
+            throw .invalidSourcesURL
+        }
+        var request = URLRequest(url: url)
+        request.addValue(Self.apiKey, forHTTPHeaderField: "X-Api-Key")
 
-            do {
-                let decoder = JSONDecoder()
-                let sourcesPayload = try decoder.decode(SourcesPayload.self, from: data)
-                return sourcesPayload.sources.map { source in
-                    Source(id: source.id,
-                           name: source.name,
-                           description: source.description,
-                           url: source.url,
-                           category: source.category,
-                           language: source.language,
-                           country: source.country,
-                           isSelected: false)
-                }
-            } catch {
-                print(error)
-                throw .decodingSourcesFailed
+        let (data, _): (Data, URLResponse)
+        do {
+            (data, _) = try await URLSession.shared.data(for: request)
+        } catch {
+            throw .noSources
+        }
+
+        do {
+            let decoder = JSONDecoder()
+            let sourcesPayload = try decoder.decode(SourcesPayload.self, from: data)
+            return sourcesPayload.sources.map { source in
+                Source(id: source.id,
+                       name: source.name,
+                       description: source.description,
+                       url: source.url,
+                       category: source.category,
+                       language: source.language,
+                       country: source.country,
+                       isSelected: false)
             }
+        } catch {
+            print(error)
+            throw .decodingSourcesFailed
         }
     }
+}
 

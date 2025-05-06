@@ -8,11 +8,21 @@
 import SwiftUI
 
 struct ArticleHeadlineView: View {
+    @State private var articlesVM: ArticlesViewModel
+
+    init(sourceManager: SourceManager) {
+        articlesVM = ArticlesViewModel(service: NewsAPIService(), sourceManager: sourceManager)
+    }
     var body: some View {
-        Text("Headlines")
+        List(articlesVM.articles) { article in
+            Text(article.title)
+        }
+        .task {
+            await articlesVM.getArticles()
+        }
     }
 }
 
 #Preview {
-    ArticleHeadlineView()
+    ArticleHeadlineView(sourceManager: SourceManager())
 }
