@@ -12,6 +12,8 @@ class ArticlesViewModel {
     let sourceManager: SourceManager
     let service: NewsAPIService
     var articles: [Article] = []
+    var showErrorAlert = false
+    var error: APIError?
 
     init(service: NewsAPIService, sourceManager: SourceManager) {
         self.service = service
@@ -19,6 +21,11 @@ class ArticlesViewModel {
     }
 
     func getArticles() async {
-        articles = await service.getArticles(for: sourceManager.userSelectedSources)
+        do {
+            articles = try await service.getArticles(for: sourceManager.userSelectedSources)
+        } catch {
+            self.error = error
+            showErrorAlert = true
+        }
     }
 }

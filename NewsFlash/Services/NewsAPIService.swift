@@ -17,17 +17,17 @@ class NewsAPIService {
     let sourcesUrlString = "https://newsapi.org/v2/top-headlines/sources"
 
 
-    func getArticles(for sources: Set<String>) async -> [Article] {
+    func getArticles(for sources: Set<String>) async throws(APIError) -> [Article] {
         let articlesUrlString = "https://newsapi.org/v2/everything?sources=\(sources.joined(separator:","))"
 
-        guard let url = URL(string: articlesUrlString) else { return [] }
+        guard let url = URL(string: articlesUrlString) else { throw .invalidURL }
         var request = URLRequest(url: url)
         request.addValue(Self.apiKey, forHTTPHeaderField: "X-Api-Key")
         let (data, _): (Data, URLResponse)
         do {
             (data, _) = try await URLSession.shared.data(for: request)
         } catch {
-            return []
+            throw .noData
         }
 
         do {
@@ -46,16 +46,15 @@ class NewsAPIService {
                         isSaved: false)
             }
         } catch {
-            print(error)
-            return []
+            throw.decodingFailed
         }
 
     }
 
 
-    func getSources() async throws(SourcesAPIError) -> [Source] {
+    func getSources() async throws(APIError) -> [Source] {
         guard let url = URL(string: sourcesUrlString) else {
-            throw .invalidSourcesURL
+            throw .invalidURL
         }
         var request = URLRequest(url: url)
         request.addValue(Self.apiKey, forHTTPHeaderField: "X-Api-Key")
@@ -64,7 +63,7 @@ class NewsAPIService {
         do {
             (data, _) = try await URLSession.shared.data(for: request)
         } catch {
-            throw .noSources
+            throw .noData
         }
 
         do {
@@ -82,7 +81,7 @@ class NewsAPIService {
             }
         } catch {
             print(error)
-            throw .decodingSourcesFailed
+            throw .decodingFailed
         }
     }
 }

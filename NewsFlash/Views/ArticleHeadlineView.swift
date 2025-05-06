@@ -17,6 +17,7 @@ struct ArticleHeadlineView: View {
         List(articlesVM.articles) { article in
             Text(article.title)
         }
+        .alert(isPresented: $articlesVM.showErrorAlert, error: articlesVM.error, actions: {})
         .task {
             await articlesVM.getArticles()
         }

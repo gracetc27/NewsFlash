@@ -13,7 +13,7 @@ class SourcesViewModel {
     private let sourceManager: SourceManager
     let service: NewsAPIService
     var sources: [Source] = []
-    var error: SourcesAPIError?
+    var error: APIError?
     var showErrorAlert = false
 
     init(sourceManager: SourceManager, service: NewsAPIService) {
@@ -22,7 +22,7 @@ class SourcesViewModel {
     }
 
     func getSources() async {
-        do throws(SourcesAPIError) {
+        do throws(APIError) {
             sources = try await service.getSources()
         } catch {
             self.error = error
