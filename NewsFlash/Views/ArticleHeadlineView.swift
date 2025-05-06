@@ -15,7 +15,7 @@ struct ArticleHeadlineView: View {
     }
     var body: some View {
         List(articlesVM.articles) { article in
-            Text(article.title)
+            ArticleItemView(article: article)
         }
         .alert(isPresented: $articlesVM.showErrorAlert, error: articlesVM.error, actions: {})
         .task {

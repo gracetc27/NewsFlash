@@ -8,11 +8,32 @@
 import SwiftUI
 
 struct ArticleItemView: View {
+    let article: Article
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack {
+            AsyncImage(url: article.url) { image in
+                image
+                    .resizable()
+                    .scaledToFit()
+            } placeholder: {
+                ProgressView()
+            }
+            .frame(width: 50, height: 50)
+            VStack(alignment: .leading) {
+                Text(article.title)
+                    .font(.headline)
+                HStack {
+                    Text(article.description)
+                    Spacer()
+                    Text(article.author ?? "Unknown Author")
+                        .italic()
+                }
+            }
+        }
+        .padding(.horizontal)
     }
 }
 
 #Preview {
-    ArticleItemView()
+    ArticleItemView(article: .defaultArticle)
 }
