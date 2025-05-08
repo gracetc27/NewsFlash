@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SavedView: View {
-    let articlesManager = ArticlesManager()
+    let articlesManager: ArticlesManager
     var body: some View {
         List(articlesManager.savedArticles) { article in
             NavigationLink {
@@ -24,5 +24,5 @@ struct SavedView: View {
 }
 
 #Preview {
-    SavedView()
+    SavedView(articlesManager: ArticlesManager())
 }

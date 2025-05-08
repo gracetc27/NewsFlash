@@ -12,7 +12,7 @@ struct MainView: View {
     let articlesManager = ArticlesManager()
     var body: some View {
         TabView {
-            ArticleHeadlineView(sourceManager: sourceManager, articlesManager: ArticlesManager())
+            ArticleHeadlineView(sourceManager: sourceManager, articlesManager: articlesManager)
                 .tabItem {
                     Label("Headlines", systemImage: "list.dash")
                 }
@@ -22,7 +22,7 @@ struct MainView: View {
                     Label("Sources", systemImage: "square.and.pencil")
                 }
 
-            SavedView()
+            SavedView(articlesManager: articlesManager)
                 .tabItem {
                     Label("Saved", systemImage: "star.fill")
                 }
