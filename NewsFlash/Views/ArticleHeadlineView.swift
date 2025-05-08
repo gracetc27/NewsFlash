@@ -24,14 +24,14 @@ struct ArticleHeadlineView: View {
                           ArticleView(article: $article)
                         } label: {
                             ArticleItemView(article: article)
-                                .onChange(of: article.isSaved) { oldValue, newValue in
-                                    // TODO: move to view model to test logic
-                                    if newValue {
-                                        articlesVM.saveArticle(article)
-                                    } else {
-                                        articlesVM.removeSavedArticle(article)
-                                    }
-                                }
+                        }
+                        .onChange(of: article.isSaved) { oldValue, newValue in
+                            // TODO: move to view model to test logic
+                            if newValue {
+                                articlesVM.saveArticle(article)
+                            } else {
+                                articlesVM.removeSavedArticle(article)
+                            }
                         }
                     }
                 }
