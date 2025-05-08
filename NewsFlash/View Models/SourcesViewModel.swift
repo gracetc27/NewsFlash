@@ -11,19 +11,19 @@ import SwiftUI
 @Observable
 class SourcesViewModel {
     private let sourceManager: SourceManager
-    let service: NewsAPIService
+    let sourceUseCase: SourceUseCase
     var sources: [Source] = []
-    var error: APIError?
+    var error: SourceError?
     var showErrorAlert = false
 
-    init(sourceManager: SourceManager, service: NewsAPIService) {
+    init(sourceManager: SourceManager, sourceUseCase: SourceUseCase) {
         self.sourceManager = sourceManager
-        self.service = service
+        self.sourceUseCase = sourceUseCase
     }
 
     func getSources() async {
-        do throws(APIError) {
-            sources = try await service.getSources()
+        do throws(SourceError) {
+            sources = try await sourceUseCase.getSources()
         } catch {
             self.error = error
             showErrorAlert = true
@@ -32,12 +32,16 @@ class SourcesViewModel {
 
     func addSelectedSource(_ source: Source) {
         guard source.isSelected == true else { return }
-        sourceManager.userSelectedSources.insert(source.id)
+        sourceManager.saveSource(source)
         }
 
     func removeSelectedSource(_ source: Source) {
         guard source.isSelected == false else { return }
-        sourceManager.userSelectedSources.remove(source.id)
+        sourceManager.removeSavedSource(source)
+    }
+
+    func loadSavedSources() async {
+        await sourceManager.loadSavedSources()
     }
 }
 

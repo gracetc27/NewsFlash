@@ -53,7 +53,7 @@ class NewsAPIService {
     }
 
 
-    func getSources() async throws(APIError) -> [Source] {
+    func getSources() async throws(APIError) -> [APISource] {
         guard let url = URL(string: sourcesUrlString) else {
             throw .invalidURL
         }
@@ -70,16 +70,7 @@ class NewsAPIService {
         do {
             let decoder = JSONDecoder()
             let sourcesPayload = try decoder.decode(SourcesPayload.self, from: data)
-            return sourcesPayload.sources.map { source in
-                Source(id: source.id,
-                       name: source.name,
-                       description: source.description,
-                       url: source.url,
-                       category: source.category,
-                       language: source.language,
-                       country: source.country,
-                       isSelected: false)
-            }
+            return sourcesPayload.sources
         } catch {
             print(error)
             throw .decodingFailed
