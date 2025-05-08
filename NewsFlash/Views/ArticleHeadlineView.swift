@@ -20,7 +20,9 @@ struct ArticleHeadlineView: View {
                     EmptyArticlesView()
                 } else {
                     List(articlesVM.articles) { article in
-                        Link(destination: article.url) {
+                        NavigationLink {
+                            ArticleSafariView(url: article.url)
+                        } label: {
                             ArticleItemView(article: article)
                         }
                     }
