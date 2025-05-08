@@ -14,21 +14,27 @@ struct ArticleHeadlineView: View {
         articlesVM = ArticlesViewModel(service: NewsAPIService(), sourceManager: sourceManager)
     }
     var body: some View {
-        Group {
-            if articlesVM.articles.isEmpty {
-                EmptyArticlesView()
-            } else {
-                List(articlesVM.articles) { article in
-                    ArticleItemView(article: article)
+        NavigationStack {
+            Group {
+                if articlesVM.articles.isEmpty {
+                    EmptyArticlesView()
+                } else {
+                    List(articlesVM.articles) { article in
+                        Link(destination: article.url) {
+                            ArticleItemView(article: article)
+                        }
+                    }
                 }
             }
-        }
-        .alert(isPresented: $articlesVM.showErrorAlert, error: articlesVM.error, actions: {})
-        .task {
-            await articlesVM.getArticles()
+            .alert(isPresented: $articlesVM.showErrorAlert, error: articlesVM.error, actions: {})
+            .task {
+                await articlesVM.getArticles()
+            }
         }
     }
 }
+
+
 
 #Preview {
     ArticleHeadlineView(sourceManager: SourceManager())
