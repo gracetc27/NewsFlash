@@ -27,16 +27,15 @@ struct ArticleHeadlineView: View {
                                 .onChange(of: article.isSaved) { oldValue, newValue in
                                     // TODO: move to view model to test logic
                                     if newValue {
-                                        articlesVM.saveArticle()
+                                        articlesVM.saveArticle(article)
                                     } else {
-                                        articlesVM.removeSavedArticle()
+                                        articlesVM.removeSavedArticle(article)
                                     }
                                 }
                         }
                     }
                 }
             }
-            
             .alert(isPresented: $articlesVM.showErrorAlert, error: articlesVM.error, actions: {})
             .task {
                 await articlesVM.getArticles()
