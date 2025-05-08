@@ -33,11 +33,11 @@ class ArticlesViewModel {
 
     func saveArticle(_ article: Article) {
         guard article.isSaved == true else { return }
-        articlesManager.savedArticles.append(article)
-        }
+        articlesManager.saveArticle(article)
+    }
 
     func removeSavedArticle(_ article: Article) {
         guard article.isSaved == false else { return }
-        articlesManager.savedArticles.removeAll { $0.id == article.id }
+        articlesManager.removeSavedArticle(article)
     }
 }

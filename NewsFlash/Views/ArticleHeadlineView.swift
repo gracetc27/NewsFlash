@@ -19,9 +19,9 @@ struct ArticleHeadlineView: View {
                 if articlesVM.articles.isEmpty {
                     EmptyArticlesView()
                 } else {
-                    List(articlesVM.articles) { article in
+                    List($articlesVM.articles) { $article in
                         NavigationLink {
-                            ArticleSafariView(url: article.url)
+                          ArticleView(article: $article)
                         } label: {
                             ArticleItemView(article: article)
                                 .onChange(of: article.isSaved) { oldValue, newValue in

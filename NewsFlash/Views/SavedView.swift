@@ -17,6 +17,9 @@ struct SavedView: View {
                 ArticleItemView(article: article)
             }
         }
+        .task {
+           await articlesManager.loadSavedArticles()
+        }
     }
 }
 
