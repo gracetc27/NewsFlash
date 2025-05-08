@@ -10,12 +10,10 @@ import SwiftUI
 struct ArticleView: View {
     @Binding var article: Article
     var body: some View {
-        NavigationStack {
-            ArticleSafariView(url: article.url)
-                .toolbar {
-                    SaveButton(isSaved: $article.isSaved)
-                }
-        }
+        ArticleSafariView(url: article.url)
+            .toolbar {
+                SaveButton(isSaved: $article.isSaved)
+            }
     }
 }
 

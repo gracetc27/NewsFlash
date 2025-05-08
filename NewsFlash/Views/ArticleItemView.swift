@@ -26,6 +26,7 @@ struct ArticleItemView: View {
             }
         }
         .padding(.horizontal)
+        .navigationTitle("News Articles")
     }
 }
 
