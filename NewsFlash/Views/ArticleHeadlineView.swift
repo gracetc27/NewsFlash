@@ -14,8 +14,14 @@ struct ArticleHeadlineView: View {
         articlesVM = ArticlesViewModel(service: NewsAPIService(), sourceManager: sourceManager)
     }
     var body: some View {
-        List(articlesVM.articles) { article in
-            ArticleItemView(article: article)
+        Group {
+            if articlesVM.articles.isEmpty {
+                EmptyArticlesView()
+            } else {
+                List(articlesVM.articles) { article in
+                    ArticleItemView(article: article)
+                }
+            }
         }
         .alert(isPresented: $articlesVM.showErrorAlert, error: articlesVM.error, actions: {})
         .task {
