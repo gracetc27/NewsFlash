@@ -9,15 +9,17 @@ import SwiftUI
 
 @Observable
 class ArticlesViewModel {
+    private let articlesManager: ArticlesManager
     let sourceManager: SourceManager
     let service: NewsAPIService
     var articles: [Article] = []
     var showErrorAlert = false
     var error: APIError?
 
-    init(service: NewsAPIService, sourceManager: SourceManager) {
-        self.service = service
+    init(articlesManager: ArticlesManager, sourceManager: SourceManager, service: NewsAPIService) {
+        self.articlesManager = articlesManager
         self.sourceManager = sourceManager
+        self.service = service
     }
 
     func getArticles() async {
@@ -27,5 +29,15 @@ class ArticlesViewModel {
             self.error = error
             showErrorAlert = true
         }
+    }
+
+    func saveArticle(_ article: Article) {
+        guard article.isSaved == true else { return }
+        articlesManager.savedArticles.append(article)
+        }
+
+    func removeSavedArticle(_ article: Article) {
+        guard article.isSaved == false else { return }
+        articlesManager.savedArticles.removeAll { $0.id == article.id }
     }
 }

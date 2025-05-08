@@ -10,8 +10,8 @@ import SwiftUI
 struct ArticleHeadlineView: View {
     @State private var articlesVM: ArticlesViewModel
 
-    init(sourceManager: SourceManager) {
-        articlesVM = ArticlesViewModel(service: NewsAPIService(), sourceManager: sourceManager)
+    init(sourceManager: SourceManager, articlesManager: ArticlesManager) {
+        articlesVM = ArticlesViewModel(articlesManager: articlesManager, sourceManager: sourceManager, service: NewsAPIService())
     }
     var body: some View {
         NavigationStack {
@@ -24,10 +24,19 @@ struct ArticleHeadlineView: View {
                             ArticleSafariView(url: article.url)
                         } label: {
                             ArticleItemView(article: article)
+                                .onChange(of: article.isSaved) { oldValue, newValue in
+                                    // TODO: move to view model to test logic
+                                    if newValue {
+                                        articlesVM.saveArticle()
+                                    } else {
+                                        articlesVM.removeSavedArticle()
+                                    }
+                                }
                         }
                     }
                 }
             }
+            
             .alert(isPresented: $articlesVM.showErrorAlert, error: articlesVM.error, actions: {})
             .task {
                 await articlesVM.getArticles()
@@ -39,5 +48,5 @@ struct ArticleHeadlineView: View {
 
 
 #Preview {
-    ArticleHeadlineView(sourceManager: SourceManager())
+    ArticleHeadlineView(sourceManager: SourceManager(), articlesManager: ArticlesManager())
 }

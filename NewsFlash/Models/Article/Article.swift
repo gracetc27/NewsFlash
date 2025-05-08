@@ -17,7 +17,7 @@ struct Article: Codable, Identifiable {
     let urlToImage: URL
     let publishedAt: String
     let content: String
-    let isSaved: Bool
+    var isSaved: Bool
 
     static var defaultArticle: Article {
         Article(

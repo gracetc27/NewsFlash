@@ -8,8 +8,15 @@
 import SwiftUI
 
 struct SavedView: View {
+    let articlesManager = ArticlesManager()
     var body: some View {
-        Text("Saved")
+        List(articlesManager.savedArticles) { article in
+            NavigationLink {
+                ArticleSafariView(url: article.url)
+            } label: {
+                ArticleItemView(article: article)
+            }
+        }
     }
 }
 
