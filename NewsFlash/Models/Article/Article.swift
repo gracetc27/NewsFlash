@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct Article: Codable, Identifiable {
-    var id = UUID()
+struct Article: Codable, Identifiable, Hashable {
+    var id: String { url.absoluteString }
     let source: ArticleSource
     let author: String?
     let title: String
