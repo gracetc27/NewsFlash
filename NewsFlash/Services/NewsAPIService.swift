@@ -17,7 +17,7 @@ class NewsAPIService {
     let sourcesUrlString = "https://newsapi.org/v2/top-headlines/sources"
 
 
-    func getArticles(for sources: Set<String>) async throws(APIError) -> [Article] {
+    func getArticles(for sources: Set<String>) async throws(APIError) -> [APIArticle] {
         guard !sources.isEmpty else { return [] }
         let articlesUrlString = "https://newsapi.org/v2/everything?sources=\(sources.joined(separator:","))"
 
@@ -25,6 +25,7 @@ class NewsAPIService {
         var request = URLRequest(url: url)
         request.addValue(Self.apiKey, forHTTPHeaderField: "X-Api-Key")
         let (data, _): (Data, URLResponse)
+        
         do {
             (data, _) = try await URLSession.shared.data(for: request)
         } catch {
@@ -34,18 +35,7 @@ class NewsAPIService {
         do {
             let decoder = JSONDecoder()
             let articlesPayload = try decoder.decode(ArticlesPayload.self, from: data)
-            return articlesPayload.articles.map { article in
-                Article(id: UUID(),
-                        source: ArticleSource(id: article.source.id, name: article.source.name),
-                        author: article.author,
-                        title: article.title,
-                        description: article.description,
-                        url: article.url,
-                        urlToImage: article.urlToImage,
-                        publishedAt: article.publishedAt,
-                        content: article.content,
-                        isSaved: false)
-            }
+            return articlesPayload.articles
         } catch {
             print(error)
             throw.decodingFailed
