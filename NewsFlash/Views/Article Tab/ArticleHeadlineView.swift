@@ -11,7 +11,13 @@ struct ArticleHeadlineView: View {
     @State private var articlesVM: ArticlesViewModel
 
     init(sourceManager: SourceManager, articlesManager: ArticlesManager) {
-        articlesVM = ArticlesViewModel(articlesManager: articlesManager, sourceManager: sourceManager, service: NewsAPIService())
+        articlesVM = ArticlesViewModel(
+            articlesManager: articlesManager,
+            sourceManager: sourceManager,
+            useCase: ArticleUseCase(
+                articleManager: articlesManager,
+                sourceManager: sourceManager)
+        )
     }
     var body: some View {
         NavigationStack {

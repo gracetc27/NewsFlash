@@ -11,20 +11,22 @@ import SwiftUI
 class ArticlesViewModel {
     private let articlesManager: ArticlesManager
     let sourceManager: SourceManager
-    let service: NewsAPIService
+    let useCase: ArticleUseCase
     var articles: [Article] = []
     var showErrorAlert = false
-    var error: APIError?
+    var error: ArticleError?
 
-    init(articlesManager: ArticlesManager, sourceManager: SourceManager, service: NewsAPIService) {
+    init(articlesManager: ArticlesManager, sourceManager: SourceManager, useCase: ArticleUseCase) {
         self.articlesManager = articlesManager
         self.sourceManager = sourceManager
-        self.service = service
+        self.useCase = useCase
     }
 
+
+
     func getArticles() async {
-        do {
-            articles = try await service.getArticles(for: sourceManager.userSelectedSources)
+        do throws(ArticleError) {
+            articles = try await useCase.getArticles(for: sourceManager.userSelectedSources)
         } catch {
             self.error = error
             showErrorAlert = true
