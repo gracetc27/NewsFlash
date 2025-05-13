@@ -20,7 +20,7 @@ struct NewsFlashApp: App {
                     .task(id: scenePhase) {
                         if scenePhase == .active {
                             await sourceManager.loadSavedSources()
-                            sleep(3)
+                            try? await Task.sleep(for: .seconds(3))
                             isLoading = false
                         }
                     }
