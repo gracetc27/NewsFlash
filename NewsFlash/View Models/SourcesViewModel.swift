@@ -11,7 +11,7 @@ import SwiftUI
 @Observable
 class SourcesViewModel {
     private let sourceManager: SourceManager
-    let sourceUseCase: SourceUseCase
+    let sourceUseCase: SourceUseCaseProtocol
     var sources: [Source] = []
     var error: SourceError?
     var showErrorAlert = false

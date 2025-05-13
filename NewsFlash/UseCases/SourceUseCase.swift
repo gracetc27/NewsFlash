@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SourceUseCase {
+class SourceUseCase: SourceUseCaseProtocol {
     let service = NewsAPIService()
     let sourceManager: SourceManager
 

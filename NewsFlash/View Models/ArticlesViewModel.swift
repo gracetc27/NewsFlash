@@ -11,12 +11,12 @@ import SwiftUI
 class ArticlesViewModel {
     private let articlesManager: ArticlesManager
     let sourceManager: SourceManager
-    let useCase: ArticleUseCase
+    let useCase: ArticleUseCaseProtocol
     var articles: [Article] = []
     var showErrorAlert = false
     var error: ArticleError?
 
-    init(articlesManager: ArticlesManager, sourceManager: SourceManager, useCase: ArticleUseCase) {
+    init(articlesManager: ArticlesManager, sourceManager: SourceManager, useCase: ArticleUseCaseProtocol) {
         self.articlesManager = articlesManager
         self.sourceManager = sourceManager
         self.useCase = useCase
