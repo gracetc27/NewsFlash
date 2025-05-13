@@ -28,7 +28,18 @@ struct ArticlesVMTests {
             isSaved: false)
 
         #expect(sut.articles[0].author == testArticle.author)
+    }
 
+    @Test func ArticleVMGetArticlesSetsArticlesFailure() async throws {
+        let sut = ArticlesViewModel(articlesManager: ArticlesManager(), sourceManager: SourceManager(), useCase: TestFailureArticleUseCase())
+        #expect(sut.articles == [])
+        #expect(sut.error == nil)
+        #expect(sut.showErrorAlert == false)
+
+        await sut.getArticles()
+        #expect(sut.articles == [])
+        #expect(sut.error == ArticleError.api(.decodingFailed))
+        #expect(sut.showErrorAlert == true)
     }
 
     struct TestSuccessArticleUseCase: ArticleUseCaseProtocol {
@@ -44,6 +55,12 @@ struct ArticlesVMTests {
                     content: "1st test",
                     isSaved: false)]
             return testArticles
+        }
+    }
+
+    struct TestFailureArticleUseCase: ArticleUseCaseProtocol {
+        func getArticles(for sourceId: Set<String>) async throws(ArticleError) -> [Article] {
+            throw ArticleError.api(.decodingFailed)
         }
     }
 
