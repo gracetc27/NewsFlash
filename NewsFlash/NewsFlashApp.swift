@@ -9,9 +9,23 @@ import SwiftUI
 
 @main
 struct NewsFlashApp: App {
+    @Environment(\.scenePhase) private var scenePhase
+    @State private var isLoading = true
+    let sourceManager = SourceManager()
+    let articlesManager = ArticlesManager()
     var body: some Scene {
         WindowGroup {
-            MainView()
+            if isLoading {
+                SplashScreenView()
+                    .task(id: scenePhase) {
+                        if scenePhase == .active {
+                            await sourceManager.loadSavedSources()
+                            isLoading = false
+                        }
+                    }
+            } else {
+                MainView(sourceManager: sourceManager, articlesManager: articlesManager)
+            }
         }
     }
 }

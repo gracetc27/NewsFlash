@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct MainView: View {
-    @Environment(\.scenePhase) private var scenePhase
-    let sourceManager = SourceManager()
-    let articlesManager = ArticlesManager()
+    let sourceManager: SourceManager
+    let articlesManager: ArticlesManager
     var body: some View {
         TabView {
             ArticleHeadlineView(sourceManager: sourceManager, articlesManager: articlesManager)
@@ -28,14 +27,10 @@ struct MainView: View {
                     Label("Saved", systemImage: "star.fill")
                 }
         }
-        .task(id: scenePhase) {
-            if scenePhase == .active {
-                await sourceManager.loadSavedSources()
-            }
-        }
     }
 }
 
+
 #Preview {
-    MainView()
+    MainView(sourceManager: SourceManager(), articlesManager: ArticlesManager())
 }
