@@ -33,15 +33,11 @@ class SourcesViewModel {
     func addSelectedSource(_ source: Source) {
         guard source.isSelected == true else { return }
         sourceManager.saveSource(source)
-        }
+    }
 
     func removeSelectedSource(_ source: Source) {
         guard source.isSelected == false else { return }
         sourceManager.removeSavedSource(source)
-    }
-
-    func loadSavedSources() async {
-        await sourceManager.loadSavedSources()
     }
 }
 

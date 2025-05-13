@@ -23,7 +23,6 @@ class ArticlesViewModel {
     }
 
 
-
     func getArticles() async {
         do throws(ArticleError) {
             articles = try await useCase.getArticles(for: sourceManager.userSelectedSources)

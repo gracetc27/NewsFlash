@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MainView: View {
+    @Environment(\.scenePhase) private var scenePhase
     let sourceManager = SourceManager()
     let articlesManager = ArticlesManager()
     var body: some View {
@@ -26,6 +27,11 @@ struct MainView: View {
                 .tabItem {
                     Label("Saved", systemImage: "star.fill")
                 }
+        }
+        .task(id: scenePhase) {
+            if scenePhase == .active {
+                await sourceManager.loadSavedSources()
+            }
         }
     }
 }
