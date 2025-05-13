@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ArticleError: LocalizedError {
+enum ArticleError: Equatable, LocalizedError {
     case api(APIError)
     case articleManager
     var errorDescription: String? {

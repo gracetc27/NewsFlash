@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum SourceError: LocalizedError {
+enum SourceError: Equatable, LocalizedError {
     case api(APIError)
     case sourceManager
     var errorDescription: String? {
