@@ -22,6 +22,12 @@ struct SavedView: View {
                             ArticleItemView(article: article)
                         }
                     }
+                    .onDelete { indexSet in
+                        for index in indexSet {
+                            let article = articlesManager.sortedArticles[index]
+                            articlesManager.removeSavedArticle(article)
+                        }
+                    }
                 }
             }
         }
