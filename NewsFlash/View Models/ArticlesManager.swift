@@ -39,7 +39,10 @@ class ArticlesManager {
 
     func removeSavedArticle(_ article: Article) {
         do {
-            savedArticles.remove(article)
+            guard let articleToRemove = savedArticles.first(where: {
+                article.id == $0.id
+            }) else { return }
+            savedArticles.remove(articleToRemove)
             let data = try JSONEncoder().encode(savedArticles)
             try data.write(to: savePath, options: [.atomic, .completeFileProtection])
         } catch {
