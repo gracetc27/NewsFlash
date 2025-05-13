@@ -6,7 +6,7 @@
 //
 import Foundation
 
-struct Source: Identifiable {
+struct Source: Equatable, Identifiable {
     let id: String
     let name: String
     let description: String

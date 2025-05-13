@@ -16,7 +16,7 @@ class SourcesViewModel {
     var error: SourceError?
     var showErrorAlert = false
 
-    init(sourceManager: SourceManager, sourceUseCase: SourceUseCase) {
+    init(sourceManager: SourceManager, sourceUseCase: SourceUseCaseProtocol) {
         self.sourceManager = sourceManager
         self.sourceUseCase = sourceUseCase
     }
