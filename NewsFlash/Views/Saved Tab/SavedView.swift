@@ -14,11 +14,13 @@ struct SavedView: View {
             if articlesManager.savedArticles.isEmpty {
                 EmptySavedView()
             } else {
-                List(articlesManager.sortedArticles) { article in
-                    NavigationLink {
-                        ArticleSafariView(url: article.url)
-                    } label: {
-                        ArticleItemView(article: article)
+                List {
+                    ForEach(articlesManager.sortedArticles) { article in
+                        NavigationLink {
+                            ArticleSafariView(url: article.url)
+                        } label: {
+                            ArticleItemView(article: article)
+                        }
                     }
                 }
             }
